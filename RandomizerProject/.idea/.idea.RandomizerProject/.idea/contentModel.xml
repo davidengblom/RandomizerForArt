@@ -11,6 +11,7 @@
             <e p="Categories.cs" t="Include" />
             <e p="Handler.cs" t="Include" />
             <e p="JSONReader.cs" t="Include" />
+            <e p="Keywords.cs" t="Include" />
           </e>
         </e>
       </e>

@@ -8,14 +8,13 @@ namespace Resources.Scripts
 {
     public class Handler : MonoBehaviour
     {
+        private JsonReader _jsonReader;
         public List<string> categories = new List<string>();
         public Dropdown[] dropDowns;
-
-        public Text text;
-
-        private void Start()
+        
+        private void Awake()
         {
-            Debug.Log(Application.streamingAssetsPath + "/JSON/Categories.json");
+            _jsonReader = GetComponent<JsonReader>();
         }
     }
 }

@@ -1,27 +1,56 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 namespace Resources.Scripts
 {
     public class JsonReader : MonoBehaviour
-    {
-        [SerializeField] private Handler handler;
-        public TextAsset categoriesFile;
+    { 
+        private Handler _handler;
+
+        private void Awake()
+        {
+            _handler = GetComponent<Handler>();
+        }
 
         private void Start()
         {
-            categoriesFile = (TextAsset) UnityEngine.Resources.Load(Application.streamingAssetsPath + "/JSON/Categories.json");
-            var categoriesInJson = JsonUtility.FromJson<Categories>(categoriesFile.text);
+            UpdateDropDownData();
+        }
+
+        public void UpdateDropDownData()
+        {
+            ClearDropDownData();
+            var jsonFile = File.ReadAllText(Application.streamingAssetsPath + "/Categories.json");
+            var categoriesInJson = JsonUtility.FromJson<Categories>(jsonFile);
 
             foreach (var category in categoriesInJson.categories)
             {
-                handler.categories.Add(category);
+                _handler.categories.Add(category);
             }
 
-            foreach (var dropdown in handler.dropDowns)
+            foreach (var dropdown in _handler.dropDowns)
             {
-                dropdown.AddOptions(handler.categories);
+                dropdown.AddOptions(_handler.categories);
             }
+            
+        }
+
+        private void ClearDropDownData()
+        {
+            _handler.categories.Clear();
+            foreach (var dropdown in _handler.dropDowns)
+            {
+                dropdown.ClearOptions();
+            }
+        }
+
+        private void UpdateKeywordData()
+        {
+            //for each category, create a new list containing keywords from .json file with the same name as the Dropdown option
+            
+            //Last Session: 11/2/2020 - David E.
         }
     }
 }
